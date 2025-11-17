@@ -1,0 +1,29 @@
+name: php-kelompok14
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - name: Buat smoke test executable
+        run: chmod +x tests/smoke.sh
+
+      - name: Jalankan PHP server
+        run: |
+          php -S 127.0.0.1:8080 -t public/ &
+          sleep 4
+
+      - name: Jalankan smoke test
+        run: ./tests/smoke.sh
